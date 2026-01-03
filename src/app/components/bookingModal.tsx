@@ -1,10 +1,12 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { X } from 'lucide-react'
+import { db } from '../../firebase'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const schema = yup.object({
   name: yup.string().required('Name is required'),
@@ -25,6 +27,9 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ isOpen, onClose, destination }: BookingModalProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  
   const {
     register,
     handleSubmit,
@@ -47,11 +52,32 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
     }
   }, [isOpen, reset])
 
-  const onSubmit = (data: any) => {
-    console.log('Form submitted:', data)
-    // Handle form submission here (e.g., send to API, Firebase, etc.)
-    alert('Thank you for your booking inquiry! We will contact you soon.')
-    onClose()
+  const onSubmit = async (data: any) => {
+    setIsSubmitting(true)
+    setSubmitError(null)
+    
+    try {
+      // Save to Firestore
+      await addDoc(collection(db, 'bookings'), {
+        ...data,
+        createdAt: serverTimestamp(),
+        status: 'pending'
+      })
+      
+      console.log('Booking saved successfully:', data)
+      alert('Thank you for your booking inquiry! We will contact you soon.')
+      reset()
+      onClose()
+    } catch (error: any) {
+      console.error('Error saving booking:', error)
+      setSubmitError('Failed to submit booking. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const onError = (errors: any) => {
+    console.log('Form validation errors:', errors)
   }
 
   if (!isOpen) return null
@@ -65,7 +91,10 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
       />
 
       {/* Modal */}
-      <div className='relative bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto'>
+      <div 
+        className='relative bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto'
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className='flex items-center justify-between p-6 border-b border-gray-300'>
           <h2 className='text-2xl font-bold text-teal-600'>
@@ -81,7 +110,7 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className='p-6'>
+        <form onSubmit={handleSubmit(onSubmit, onError)} className='p-6' noValidate>
           <div className='space-y-4'>
             {/* Name */}
             <div>
@@ -208,6 +237,13 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
             </div>
           </div>
 
+          {/* Submit Error */}
+          {submitError && (
+            <div className='mt-4 p-3 bg-red-50 border border-red-200 rounded-lg'>
+              <p className='text-sm text-red-600'>{submitError}</p>
+            </div>
+          )}
+
           {/* Buttons */}
           <div className='flex gap-4 mt-6'>
             <button
@@ -219,9 +255,10 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
             </button>
             <button
               type='submit'
-              className='flex-1 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium'
+              disabled={isSubmitting}
+              className='flex-1 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              Submit Inquiry
+              {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
             </button>
           </div>
         </form>
