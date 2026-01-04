@@ -62,6 +62,9 @@ export default function TravelBlog() {
                 <div className='absolute top-4 left-4'>
                   <span className='bg-amber-800 text-white px-5 py-1.5 rounded-full text-xs font-semibold'>
                     {destination.tag}
+                    <span className='bg-amber-800 text-white px-5 py-1.5 rounded-full text-xs font-semibold'>
+                    {destination.tag}
+                  </span>
                   </span>
                 </div>
               </div>
