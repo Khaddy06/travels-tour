@@ -13,13 +13,13 @@ export default function Footer() {
             <div className='mb-4'>
               <Image 
                 src={LogoOne} 
-                alt="travels & tours logo" 
+                alt="diamonds & pearls logo" 
                 width={100} 
                 height={100} 
                 className='brightness-0 invert'
               />
             </div>
-           
+            <p className='text-white text-sm font-normal'>diamonds & pearls</p>
           </div>
 
           {/* COMPANY Column */}
