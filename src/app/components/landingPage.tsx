@@ -8,7 +8,6 @@ export default function LandingPage() {
     <div className='bg-gray-100 min-h-screen'>
     <Navbar/>
     <TravelBlog/>
-    <TravelBlog/>
     <Footer/>
     </div>
   )
