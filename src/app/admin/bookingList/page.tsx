@@ -1,11 +1,14 @@
 'use client'
 
 import { db } from '@/firebase'
-import { query, collection, getDocs, orderBy } from 'firebase/firestore'
+import { query, collection, getDocs, orderBy, doc, deleteDoc } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/lib/auth'
+import toast from 'react-hot-toast'
+import DeleteModal from '../../components/DeleteModal'
+import { FileMinus } from 'lucide-react'
 
 interface Booking {
   id: string
@@ -33,6 +36,9 @@ export default function BookingList() {
     const router = useRouter()
   // Mock data for UI preview - remove when connecting to real data
 const [bookings, setBookings] = useState<Booking[]>([])
+const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+const [bookingToDelete, setBookingToDelete] = useState<Booking | null>(null)
+const [isDeleting, setIsDeleting] = useState(false)
 
 
 const fetchBookings = async () => {
@@ -54,11 +60,40 @@ useEffect(()=>{
 const handleLogout = async () => {
     try{
         await logout()
+        toast.success('Logout successful')
         router.push('/admin/login')
+
     }catch(error){
         console.error(error)
-        alert("Failed to logout")
+        toast.error('Failed to logout')
     }
+};
+const handleDeleteClick = (booking: Booking) => {
+    setBookingToDelete(booking)
+    setDeleteModalOpen(true)
+};
+
+const handleDeleteConfirm = async () => {
+    if (!bookingToDelete) return
+    
+    setIsDeleting(true)
+    try{
+        await deleteDoc(doc(db, 'bookings', bookingToDelete.id))
+        toast.success('Booking deleted successfully')
+        fetchBookings()
+        setDeleteModalOpen(false)
+        setBookingToDelete(null)
+    }catch(error){
+        console.error(error)
+        toast.error('Failed to delete booking')
+    }finally{
+        setIsDeleting(false)
+    }
+}
+
+const handleDeleteCancel = () => {
+    setDeleteModalOpen(false)
+    setBookingToDelete(null)
 }
   return (
     <div className='min-h-screen bg-gray-50 py-8 px-4'>
@@ -119,20 +154,8 @@ const handleLogout = async () => {
         <div className='bg-white rounded-lg shadow-sm overflow-hidden'>
           {bookings.length === 0 ? (
             <div className='text-center py-12'>
-              <div className='text-gray-400 mb-4'>
-                <svg
-                  className='mx-auto h-12 w-12'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                  />
-                </svg>
+              <div className='text-gray-400 mb-4 flex justify-center items-center'>
+              <FileMinus className='h-12 w-12 text-gray-400' />
               </div>
               <h3 className='text-lg font-medium text-gray-900 mb-2'>No bookings found</h3>
               <p className='text-gray-500'>Bookings will appear here once customers submit inquiries.</p>
@@ -196,10 +219,12 @@ const handleLogout = async () => {
                         {formatDate(booking.createdAt)}
                       </td>
                       <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
-                        <button className='text-teal-600 hover:text-teal-900 mr-4'>
+                        {/* <button className='text-teal-600 hover:text-teal-900 mr-4'>
                           View
-                        </button>
-                        <button className='text-red-600 hover:text-red-900'>
+                        </button> */}
+                        <button className='text-red-600 hover:text-red-900'
+                        onClick={()=>handleDeleteClick(booking)}
+                        >
                           Delete
                         </button>
                       </td>
@@ -235,6 +260,17 @@ const handleLogout = async () => {
           </div>
         )}
       </div>
+
+      {/* Delete Modal */}
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title='Delete Booking'
+        message='Are you sure you want to delete this booking?'
+        itemName={bookingToDelete ? `${bookingToDelete.name} - ${bookingToDelete.destination}` : undefined}
+        isDeleting={isDeleting}
+      />
     </div>
   )
 }

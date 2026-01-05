@@ -23,7 +23,7 @@ useEffect(()=>{
 }, [router]);
 
 if(loading){
-    return <div>return checking auth state...</div>
+    return <div>return checking auth state.......</div>
 }
 
 

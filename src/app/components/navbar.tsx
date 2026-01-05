@@ -4,10 +4,12 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import LogoOne from "../../assest/logoOne.png"
 import BookingModal from './bookingModal'
+import { useRouter } from 'next/navigation'
 
 
 
 export default function Navbar() {
+  const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
@@ -23,6 +25,12 @@ export default function Navbar() {
                 className='bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium'
               >
                 Book Now
+              </button>
+              <button
+                onClick={() => router.push('/admin/login')}
+                className='bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium'
+              >
+                Admin Login
               </button>
           </div>
       </div>

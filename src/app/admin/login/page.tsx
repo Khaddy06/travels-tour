@@ -7,6 +7,7 @@ import Image from 'next/image'
 import LogoOne from '../../../assest/logoOne.png'
 import { login } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -19,10 +20,11 @@ export default function LoginPage() {
     const onSubmit = async (data: any) => {
         try {
             await login(data.email, data.password)
+            toast.success('Login successful')
             router.push('/admin')
         }catch (error: any) {
             console.error(error)
-            alert("Invalid credentials")
+            toast.error('Invalid credentials')
         }
     }
     
