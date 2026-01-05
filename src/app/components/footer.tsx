@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className='bg-teal-800 text-white px-16 pt-8 pb-0'>
       <div className='max-w-7xl mx-auto'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-8'>
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-14 mb-8'>
           {/* Logo Section */}
           <div className='flex flex-col'>
             <div className='mb-4'>
@@ -19,7 +19,7 @@ export default function Footer() {
                 className='brightness-0 invert'
               />
             </div>
-            <p className="text-sm">
+            <p className="text-sm ">
         Making your travel planning easy and stress-free.
       </p>
           </div>
