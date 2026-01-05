@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { X } from 'lucide-react'
-import { db } from '../../firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { createBooking } from '@/services/booking'
 
 const schema = yup.object({
   name: yup.string().required('Name is required'),
@@ -18,67 +17,29 @@ const schema = yup.object({
   message: yup.string().notRequired()
 })
 
-type FormData = yup.InferType<typeof schema>
 
-interface BookingModalProps {
+type BookingModalProps = {
   isOpen: boolean
   onClose: () => void
   destination?: string
 }
 
-export default function BookingModal({ isOpen, onClose, destination }: BookingModalProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [submitError, setSubmitError] = useState<string | null>(null)
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue
-  } = useForm({
-    resolver: yupResolver(schema) as any
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(schema)
   })
 
-  useEffect(() => {
-    if (destination) {
-      setValue('destination', destination)
-    }
-  }, [destination, setValue])
-
-  useEffect(() => {
-    if (!isOpen) {
-      reset()
-    }
-  }, [isOpen, reset])
-
-  const onSubmit = async (data: any) => {
-    setIsSubmitting(true)
-    setSubmitError(null)
-    
-    try {
-      // Save to Firestore
-      await addDoc(collection(db, 'bookings'), {
-        ...data,
-        createdAt: serverTimestamp(),
-        status: 'pending'
-      })
-      
-      console.log('Booking saved successfully:', data)
-      alert('Thank you for your booking inquiry! We will contact you soon.')
-      reset()
-      onClose()
-    } catch (error: any) {
-      console.error('Error saving booking:', error)
-      setSubmitError('Failed to submit booking. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const onError = (errors: any) => {
-    console.log('Form validation errors:', errors)
-  }
+ const onSubmit = async (data: any) => {
+   try{
+    await createBooking(data)
+    alert('Booking created successfully')
+    reset()
+   } catch (error) {
+    console.error(error)
+    setSubmitError('Failed to create booking')
+   }
+ }
 
   if (!isOpen) return null
 
@@ -110,7 +71,7 @@ export default function BookingModal({ isOpen, onClose, destination }: BookingMo
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit, onError)} className='p-6' noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} className='p-6' noValidate>
           <div className='space-y-4'>
             {/* Name */}
             <div>
