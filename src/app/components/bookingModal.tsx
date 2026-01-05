@@ -3,22 +3,13 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { X } from 'lucide-react'
 import { createBooking } from '@/services/booking'
 import Input from './Input'
 import Textarea from './Textarea'
 import Select from './Select'
+import { schema } from '@/services/schema'
 
-const schema = yup.object({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email address').required('Email is required'),
-  phone: yup.string().required('Phone number is required'),
-  destination: yup.string().required('Destination is required'),
-  travelDate: yup.string().required('Travel date is required'),
-  numberOfTravelers: yup.number().min(1, 'At least 1 traveler required').required('Number of travelers is required'),
-  message: yup.string().notRequired()
-})
 
 
 type BookingModalProps = {
