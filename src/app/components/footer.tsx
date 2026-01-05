@@ -27,29 +27,25 @@ export default function Footer() {
           {/* COMPANY Column */}
           <div className='flex flex-col'>
             <h3 className='font-bold text-white mb-3 pb-2 border-b border-white'>
-              COMPANY
+              Quick Links
             </h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href="/about" className='text-white hover:underline text-sm'>
+                <Link href="/" className='text-white hover:underline text-sm'>
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className='text-white hover:underline text-sm'>
-                  Contact Us
+                <Link href="/" className='text-white hover:underline text-sm'>
+                  Book Now
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className='text-white hover:underline text-sm'>
-                  Privacy Policy
+                <Link href="/admin/login" className='text-white hover:underline text-sm'>
+                  Admin Login
                 </Link>
               </li>
-              <li>
-                <Link href="/terms" className='text-white hover:underline text-sm'>
-                  Terms and Conditions
-                </Link>
-              </li>
+             
             </ul>
           </div>
 
@@ -59,13 +55,13 @@ export default function Footer() {
               Contact Us
             </h3>
             <ul className='flex flex-col gap-2'>
-              <li className='text-white hover:underline text-sm'>
+              <li className='text-white  text-sm'>
               <p className="text-sm">info@travelbooking.com</p>
               </li>
-              <li className='text-white hover:underline text-sm'>
+              <li className='text-white  text-sm'>
                 <p className="text-sm">+2348100000000</p>
               </li>
-              <li className='text-white hover:underline text-sm'>
+              <li className='text-white text-sm'>
                 <p className="text-sm">Lagos,Nigeria</p>
               </li>
             </ul>
