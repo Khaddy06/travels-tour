@@ -14,9 +14,10 @@ export default function Navbar() {
 
   return (
     <>
-      <div className='flex justify-between items-center px-16  py-4 max-w-10xl mx-auto'>
-          <div>
-              <Image src={LogoOne} alt="logo" width={100} height={100} />
+      <div className='flex justify-between items-center px-16 bg-white py-4 max-w-10xl mx-auto'>
+          <div >
+              <Image src={LogoOne} alt="logo" width={140} height={140}
+               className='brightness-100 invert' />
           </div>
           <div className='flex gap-4 items-center text-gray-500 font-medium'>
           

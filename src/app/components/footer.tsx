@@ -7,9 +7,9 @@ export default function Footer() {
   return (
     <footer className='bg-teal-800 text-white px-16 pt-8 pb-0'>
       <div className='max-w-7xl mx-auto'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-14 mb-8'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-14 mb-8'>
           {/* Logo Section */}
-          <div className='flex flex-col'>
+          <div className='flex flex-col items-center text-center'>
             <div className='mb-4'>
               <Image 
                 src={LogoOne} 
@@ -19,13 +19,13 @@ export default function Footer() {
                 className='brightness-0 invert'
               />
             </div>
-            <p className="text-sm ">
-        Making your travel planning easy and stress-free.
-      </p>
+            <p className="text-sm">
+              Making your travel planning easy and stress-free.
+            </p>
           </div>
 
-          {/* COMPANY Column */}
-          <div className='flex flex-col'>
+          {/* Quick Links Column */}
+          <div className='flex flex-col items-center text-center'>
             <h3 className='font-bold text-white mb-3 pb-2 border-b border-white'>
               Quick Links
             </h3>
@@ -45,29 +45,26 @@ export default function Footer() {
                   Admin Login
                 </Link>
               </li>
-             
             </ul>
           </div>
 
-          {/* EXPLORE Column */}
-          <div className='flex flex-col'>
+          {/* Contact Column */}
+          <div className='flex flex-col items-center text-center'>
             <h3 className='font-bold text-white mb-3 pb-2 border-b border-white'>
               Contact Us
             </h3>
             <ul className='flex flex-col gap-2'>
-              <li className='text-white  text-sm'>
-              <p className="text-sm">info@travelbooking.com</p>
-              </li>
-              <li className='text-white  text-sm'>
-                <p className="text-sm">+2348100000000</p>
+              <li className='text-white text-sm'>
+                <p>info@travelbooking.com</p>
               </li>
               <li className='text-white text-sm'>
-                <p className="text-sm">Lagos,Nigeria</p>
+                <p>+2348100000000</p>
+              </li>
+              <li className='text-white text-sm'>
+                <p>Lagos, Nigeria</p>
               </li>
             </ul>
           </div>
-
-         
         </div>
 
         {/* Copyright */}
