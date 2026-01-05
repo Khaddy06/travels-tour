@@ -36,9 +36,10 @@ export default function LoginPage() {
           <div className='flex justify-center mb-4'>
             <Image 
               src={LogoOne} 
-              alt="diamonds & pearls logo" 
-              width={80} 
-              height={80}
+              alt="bikeh travels & tours logo" 
+              width={100} 
+              height={100}
+              className='brightness-100 invert'
             />
           </div>
           <h1 className='text-3xl font-bold text-teal-800 mb-2'>

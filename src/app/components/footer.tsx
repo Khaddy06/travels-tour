@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import LogoOne from "../../assest/logoOne.png"
+import BookingModal from './bookingModal'
 
 export default function Footer() {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const handleBookNow = () => {
+        setIsModalOpen(true)
+    }
   return (
     <footer className='bg-teal-800 text-white px-16 pt-8 pb-0'>
       <div className='max-w-7xl mx-auto'>
@@ -35,11 +40,13 @@ export default function Footer() {
                   About Us
                 </Link>
               </li>
-              <li>
-                <Link href="/" className='text-white hover:underline text-sm'>
+              
+                <button 
+                onClick={handleBookNow}
+                className='text-white hover:underline text-sm'>
                   Book Now
-                </Link>
-              </li>
+                </button>
+            
               <li>
                 <Link href="/admin/login" className='text-white hover:underline text-sm'>
                   Admin Login
@@ -74,6 +81,12 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      <BookingModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
+
     </footer>
   )
 }
