@@ -9,6 +9,8 @@ import Input from './Input'
 import Textarea from './Textarea'
 import Select from './Select'
 import { schema } from '@/services/schema'
+import type { BookingFormDataFromSchema } from '@/types'
+import type { SubmitHandler } from 'react-hook-form'
 
 
 
@@ -32,16 +34,17 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     resolver: yupResolver(schema)
   })
 
- const onSubmit = async (data: any) => {
-   try{
-    await createBooking(data)
-    alert('Booking created successfully')
-    reset()
-   } catch (error) {
-    console.error(error)
-    setSubmitError('Failed to create booking')
-   }
- }
+  const onSubmit: SubmitHandler<BookingFormDataFromSchema> = async (data) => {
+    try {
+      await createBooking(data)
+      alert('Booking created successfully')
+      reset()
+      onClose()
+    } catch (error) {
+      console.error(error)
+      setSubmitError('Failed to create booking')
+    }
+  }
 
   if (!isOpen) return null
 

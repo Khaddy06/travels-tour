@@ -1,7 +1,7 @@
 'use client'
 
 import { db } from '@/firebase'
-import { query, collection, getDocs, orderBy, doc, deleteDoc } from 'firebase/firestore'
+import { query, collection, getDocs, orderBy, doc, deleteDoc, Timestamp } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
@@ -9,21 +9,9 @@ import { logout } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import DeleteModal from '../../components/DeleteModal'
 import { FileMinus } from 'lucide-react'
+import type { Booking } from '@/types'
 
-interface Booking {
-  id: string
-  name: string
-  email: string
-  phone: string
-  destination: string
-  travelDate: string
-  numberOfTravelers: number
-  message?: string
-  createdAt: any
-  status?: string
-}
-
-const formatDate = (timestamp: any) => {
+const formatDate = (timestamp: Timestamp | null | undefined) => {
     if (!timestamp?.toDate) return "";
     return timestamp.toDate().toLocaleDateString("en-US", {
       year: "numeric",

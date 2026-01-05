@@ -1,13 +1,15 @@
 'use client'
 
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { FieldError, useForm, type SubmitHandler } from 'react-hook-form'
 import Input from '../../components/Input'
 import Image from 'next/image'
 import LogoOne from '../../../assest/logoOne.png'
 import { login } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import type { LoginFormData } from '@/types'
+import { FirebaseError } from 'firebase/app'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -15,16 +17,20 @@ export default function LoginPage() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm()
+    } = useForm<LoginFormData>()
 
-    const onSubmit = async (data: any) => {
+    const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
         try {
             await login(data.email, data.password)
             toast.success('Login successful')
             router.push('/admin')
-        }catch (error: any) {
+        } catch (error) {
             console.error(error)
-            toast.error('Invalid credentials')
+            if (error instanceof FirebaseError) {
+                toast.error('Invalid credentials')
+            } else {
+                toast.error('An error occurred')
+            }
         }
     }
     
@@ -38,7 +44,7 @@ export default function LoginPage() {
               src={LogoOne} 
               alt="bikeh travels & tours logo" 
               width={100} 
-              height={100}
+              // height={100}
               className='brightness-100 invert'
             />
           </div>
@@ -56,7 +62,7 @@ export default function LoginPage() {
             <Input
               label='Email Address'
               register={register('email')}
-              error={errors.email as any}
+              error={errors.email as FieldError}
               type='email'
               placeholder='Enter your email'
               required
@@ -65,7 +71,7 @@ export default function LoginPage() {
             <Input
               label='Password'
               register={register('password')}
-              error={errors.password as any}
+              error={errors.password as FieldError}
               type='password'
               placeholder='Enter your password'
               required

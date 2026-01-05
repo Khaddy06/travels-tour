@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { FieldError, useForm } from 'react-hook-form'
 import Input from '../../components/Input'
 import Image from 'next/image'
 import LogoOne from '../../../assest/logoOne.png'
@@ -40,7 +40,7 @@ export default function SignupPage() {
             <Input
               label='Full Name'
               register={register('name')}
-              error={errors.name as any}
+              error={errors.name as FieldError}
               type='text'
               placeholder='Enter your full name'
               required
@@ -49,7 +49,7 @@ export default function SignupPage() {
             <Input
               label='Email Address'
               register={register('email')}
-              error={errors.email as any}
+              error={errors.email as FieldError}
               type='email'
               placeholder='Enter your email'
               required
@@ -58,7 +58,7 @@ export default function SignupPage() {
             <Input
               label='Password'
               register={register('password')}
-              error={errors.password as any}
+              error={errors.password as FieldError}
               type='password'
               placeholder='Create a password'
               required
@@ -67,7 +67,7 @@ export default function SignupPage() {
             <Input
               label='Confirm Password'
               register={register('confirmPassword')}
-              error={errors.confirmPassword as any}
+              error={errors.confirmPassword as FieldError}
               type='password'
               placeholder='Confirm your password'
               required

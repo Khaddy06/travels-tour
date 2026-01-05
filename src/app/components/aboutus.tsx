@@ -18,7 +18,7 @@ export default function AboutUs() {
           </p>
 
           <p>
-            Whether you're planning a solo adventure, a romantic getaway, a family 
+            Whether you&apos;re planning a solo adventure, a romantic getaway, a family 
             vacation, or a group tour, we are committed to providing exceptional 
             service and unforgettable experiences.
           </p>
