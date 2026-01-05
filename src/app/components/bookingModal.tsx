@@ -6,6 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { X } from 'lucide-react'
 import { createBooking } from '@/services/booking'
+import Input from './Input'
+import Textarea from './Textarea'
+import Select from './Select'
 
 const schema = yup.object({
   name: yup.string().required('Name is required'),
@@ -23,6 +26,14 @@ type BookingModalProps = {
   onClose: () => void
   destination?: string
 }
+
+const destinationOptions = [
+  { value: 'Indonesia', label: 'Indonesia' },
+  { value: 'Rwanda', label: 'Rwanda' },
+  { value: 'Lebanon', label: 'Lebanon' },
+  { value: 'Thailand', label: 'Thailand' },
+  { value: 'Qatar', label: 'Qatar' }
+]
 
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -73,129 +84,67 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className='p-6' noValidate>
           <div className='space-y-4'>
-            {/* Name */}
-            <div>
-              <label htmlFor='name' className='block text-sm font-medium text-gray-700 mb-1'>
-                Full Name *
-              </label>
-              <input
-                id='name'
-                type='text'
-                {...register('name')}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-                placeholder='Enter your full name'
-              />
-              {errors.name && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.name.message)}</p>
-              )}
-            </div>
+            <Input
+              label='Full Name'
+              register={register('name')}
+              error={errors.name}
+              type='text'
+              placeholder='Enter your full name'
+              required
+            />
 
-            {/* Email */}
-            <div>
-              <label htmlFor='email' className='block text-sm font-medium text-gray-700 mb-1'>
-                Email Address *
-              </label>
-              <input
-                id='email'
-                type='email'
-                {...register('email')}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-                placeholder='Enter your email'
-              />
-              {errors.email && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.email.message)}</p>
-              )}
-            </div>
+            <Input
+              label='Email Address'
+              register={register('email')}
+              error={errors.email}
+              type='email'
+              placeholder='Enter your email'
+              required
+            />
 
-            {/* Phone */}
-            <div>
-              <label htmlFor='phone' className='block text-sm font-medium text-gray-700 mb-1'>
-                Phone Number *
-              </label>
-              <input
-                id='phone'
-                type='tel'
-                {...register('phone')}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-                placeholder='Enter your phone number'
-              />
-              {errors.phone && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.phone.message)}</p>
-              )}
-            </div>
+            <Input
+              label='Phone Number'
+              register={register('phone')}
+              error={errors.phone}
+              type='tel'
+              placeholder='Enter your phone number'
+              required
+            />
 
-            {/* Destination */}
-            <div>
-              <label htmlFor='destination' className='block text-sm font-medium text-gray-700 mb-1'>
-                Destination *
-              </label>
-              <select
-                id='destination'
-                {...register('destination')}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-              >
-                <option value=''>Select a destination</option>
-                <option value='Indonesia'>Indonesia</option>
-                <option value='Rwanda'>Rwanda</option>
-                <option value='Lebanon'>Lebanon</option>
-                <option value='Thailand'>Thailand</option>
-                <option value='Qatar'>Qatar</option>
-              </select>
-              {errors.destination && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.destination.message)}</p>
-              )}
-            </div>
+            <Select
+              label='Destination'
+              register={register('destination')}
+              error={errors.destination}
+              options={destinationOptions}
+              placeholder='Select a destination'
+              required
+            />
 
-            {/* Travel Date */}
-            <div>
-              <label htmlFor='travelDate' className='block text-sm font-medium text-gray-700 mb-1'>
-                Travel Date *
-              </label>
-              <input
-                id='travelDate'
-                type='date'
-                {...register('travelDate')}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-              />
-              {errors.travelDate && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.travelDate.message)}</p>
-              )}
-            </div>
+            <Input
+              label='Travel Date'
+              register={register('travelDate')}
+              error={errors.travelDate}
+              type='date'
+              required
+            />
 
-            {/* Number of Travelers */}
-            <div>
-              <label htmlFor='numberOfTravelers' className='block text-sm font-medium text-gray-700 mb-1'>
-                Number of Travelers *
-              </label>
-              <input
-                id='numberOfTravelers'
-                type='number'
-                min='1'
-                {...register('numberOfTravelers', { valueAsNumber: true })}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none'
-                placeholder='Enter number of travelers'
-              />
-              {errors.numberOfTravelers && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.numberOfTravelers.message)}</p>
-              )}
-            </div>
+            <Input
+              label='Number of Travelers'
+              register={register('numberOfTravelers', { valueAsNumber: true })}
+              error={errors.numberOfTravelers}
+              type='number'
+              min={1}
+              placeholder='Enter number of travelers'
+              required
+            />
 
-            {/* Message */}
-            <div>
-              <label htmlFor='message' className='block text-sm font-medium text-gray-700 mb-1'>
-                Additional Message
-              </label>
-              <textarea
-                id='message'
-                {...register('message')}
-                rows={4}
-                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none resize-none'
-                placeholder='Any special requests or additional information...'
-              />
-              {errors.message && (
-                <p className='mt-1 text-sm text-red-600'>{String(errors.message.message)}</p>
-              )}
-            </div>
+            <Textarea
+              label='Additional Message'
+              register={register('message')}
+              error={errors.message}
+              rows={4}
+              placeholder='Any special requests or additional information...'
+            />
           </div>
 
           {/* Submit Error */}

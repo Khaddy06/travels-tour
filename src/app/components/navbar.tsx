@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import LogoOne from "../../assest/logoOne.png"
 import BookingModal from './bookingModal'
 
