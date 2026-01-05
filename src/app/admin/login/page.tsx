@@ -103,7 +103,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className='mt-6 text-center text-sm text-gray-600'>
-          © 2026 Diamonds & Pearls Travel. All rights reserved.
+          © 2026 Bikeh Travel & Tours. All rights reserved.
         </p>
       </div>
     </div>
