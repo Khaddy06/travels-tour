@@ -7,6 +7,8 @@ import Image from 'next/image'
 import LogoOne from '../../../assest/logoOne.png'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function SignupPage() {
     const {
         register,

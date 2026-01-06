@@ -11,6 +11,8 @@ import DeleteModal from '../../components/DeleteModal'
 import { FileMinus } from 'lucide-react'
 import type { Booking } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 const formatDate = (timestamp: Timestamp | null | undefined) => {
     if (!timestamp?.toDate) return "";
     return timestamp.toDate().toLocaleDateString("en-US", {

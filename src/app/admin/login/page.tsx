@@ -11,6 +11,8 @@ import toast from 'react-hot-toast'
 import type { LoginFormData } from '@/types'
 import { FirebaseError } from 'firebase/app'
 
+export const dynamic = 'force-dynamic'
+
 export default function LoginPage() {
     const router = useRouter()
     const {
