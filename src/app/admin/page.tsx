@@ -1,8 +1,10 @@
+'use client'
+
 import AdminGuard from '@/components/adminGuard'
 import React from 'react'
 import BookingList from './bookingList/page'
 
-function page() {
+function AdminPage() {
   return (
     <AdminGuard>
         <BookingList/>
@@ -10,4 +12,4 @@ function page() {
   )
 }
 
-export default page
+export default AdminPage

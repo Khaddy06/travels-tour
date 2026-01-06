@@ -19,6 +19,7 @@ export default function LoginPage() {
         formState: { errors },
     } = useForm<LoginFormData>()
 
+
     const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
         try {
             await login(data.email, data.password)
