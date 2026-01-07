@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { db } from '@/firebase'
 import { query, collection, getDocs, orderBy, doc, deleteDoc, Timestamp } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
@@ -11,7 +13,7 @@ import DeleteModal from '../../components/DeleteModal'
 import { FileMinus } from 'lucide-react'
 import type { Booking } from '@/types'
 
-export const dynamic = 'force-dynamic'
+
 
 const formatDate = (timestamp: Timestamp | null | undefined) => {
     if (!timestamp?.toDate) return "";
