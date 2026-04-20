@@ -8,10 +8,8 @@
  */
 
 import {setGlobalOptions} from "firebase-functions";
-// import {onRequest} from "firebase-functions/https";
-// import * as logger from "firebase-functions/logger";
-import * as functions from "firebase-functions";
-import * as nodemailer from "nodemailer";
+import {onRequest} from "firebase-functions/https";
+import * as logger from "firebase-functions/logger";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -28,31 +26,7 @@ import * as nodemailer from "nodemailer";
 // this will be the maximum concurrent request count.
 setGlobalOptions({ maxInstances: 10 });
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "your-email@gmail.com",
-    pass: "YOUR_APP_PASSWORD", // NOT normal Gmail password
-  },
-});
-
-export const sendApplicationEmail = functions.firestore
-  .document("applications/{appId}")
-  .onCreate(async (snap) => {
-    const data = snap.data() as { email: string; name: string };
-
-    const mailOptions = {
-      from: "Bikeh Travels <your-email@gmail.com>",
-      to: data.email,
-      subject: "Application Received",
-      html: `
-        <h2>Hello ${data.name}</h2>
-        <p>We have received your application.</p>
-        <p>Our team will review it and get back to you.</p>
-        <br />
-        <p><strong>Bikeh Travels & Tours</strong></p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
-  });
+// export const helloWorld = onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
