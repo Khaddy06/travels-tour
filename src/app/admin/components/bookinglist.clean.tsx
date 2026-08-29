@@ -207,7 +207,3 @@ export default function BookingList() {
     </div>
   )
 }
-
-
-
-
